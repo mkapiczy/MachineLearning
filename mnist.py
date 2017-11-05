@@ -1,14 +1,23 @@
 from loader import MNIST
-import numpy as np
+from nc_classify import nc_classify
 
 mndata = MNIST('./samples/MNIST/')
 trainingImages, trainingLabels = mndata.load_training()
 testImages, testLabels = mndata.load_testing()
 
-print("Training images: " + str(len(trainingImages[1])))
-print("Training labels: " + str(len(trainingLabels)))
-X = np.array(trainingImages)
-y = np.array(trainingLabels)
 
-print(mndata.display(trainingImages[1]))
-print(trainingLabels[1])
+def meanValue(data):
+    dataSum = 0
+    for elem in data:
+        dataSum += elem
+    return dataSum / len(data)
+
+
+def classMeanValue(classData):
+    dataSum = 0
+    for singleImageData in classData:
+        dataSum += meanValue(singleImageData)
+    return dataSum / len(classData)
+
+
+nc_classify(trainingImages, testImages, testLabels, trainingLabels, classMeanValue, meanValue)
