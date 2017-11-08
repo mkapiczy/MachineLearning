@@ -1,5 +1,10 @@
 import numpy as np
 
+from loader import MNIST
+
+mndata = MNIST('./samples/MNIST/')
+
+
 def uniq(lst):
     last = object()
     for item in lst:
@@ -20,30 +25,30 @@ def devideIntoClasses(data, labels):
     return dataIntoClasses
 
 
-def calculateCentroids(dataDividedInClasses, centroidFunction):
+def calculateCentroids(dataDividedInClasses):
     centroids = [0 for x in range(len(dataDividedInClasses))]
     for index, singleClassData in enumerate(dataDividedInClasses):
-        centroids[index] = centroidFunction(singleClassData)
+        centroids[index] = np.mean(np.matrix(singleClassData), axis=0, dtype=np.float64)
     return centroids
 
 
-def closest(list, Number):
+def closest(list, elem):
     aux = []
     for valor in list:
-        aux.append(abs(euclideanDistance(Number, valor)))
+        aux.append(abs(euclideanDistance(elem, valor)))
     return aux.index(min(aux))
 
 
 def euclideanDistance(a, b):
-    return np.linalg.norm(a - b)
+    return np.linalg.norm(a - b, ord=2)
 
 
-def test_nc_classify(testData, testLabels, centroids, evaluationFunction):
+def test_nc_classify(testData, testLabels, centroids):
     correct = 0
     wrong = 0
 
     for index, data in enumerate(testData):
-        dataMeanValue = evaluationFunction(data)
+        dataMeanValue = np.mean(np.matrix(data), axis=0, dtype=np.float64)
         closestCentroidIndex = closest(centroids, dataMeanValue)
         if closestCentroidIndex == testLabels[index]:
             correct += 1
@@ -54,8 +59,7 @@ def test_nc_classify(testData, testLabels, centroids, evaluationFunction):
     print("Wrong: " + str(wrong))
 
 
-def nc_classify(trainData, testData, testLabels, trainLabels, centroidFunction, evaluationFunction):
+def nc_classify(trainData, testData, testLabels, trainLabels):
     dataInClasses = devideIntoClasses(trainData, trainLabels)
-    centroids = calculateCentroids(dataInClasses, centroidFunction)
-    print(str(centroids))
-    test_nc_classify(testData, testLabels, centroids, evaluationFunction)
+    centroids = calculateCentroids(dataInClasses)
+    test_nc_classify(testData, testLabels, centroids)
