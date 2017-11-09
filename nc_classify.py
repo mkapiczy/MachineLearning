@@ -1,9 +1,11 @@
+import warnings
+
 import numpy as np
+from sklearn.neighbors import NearestCentroid
 
 from loader import MNIST
 
 mndata = MNIST('./samples/MNIST/')
-
 
 def uniq(lst):
     last = object()
@@ -42,6 +44,30 @@ def closest(list, elem):
 def euclideanDistance(a, b):
     return np.linalg.norm(a - b, ord=2)
 
+def nc_classify(trainData, testData, testLabels, trainLabels):
+    dataInClasses = devideIntoClasses(trainData, trainLabels)
+    centroids = calculateCentroids(dataInClasses)
+    test_nc_classify(testData, testLabels, centroids)
+
+def test_nc_classify_with_sklearn(trainingImages, trainingLabels, testImages, testLabels):
+    with warnings.catch_warnings():
+        warnings.simplefilter("ignore")
+        X = np.array(trainingImages)
+        y = np.array(trainingLabels)
+        clf = NearestCentroid()
+        clf.fit(X, y)
+
+        correct = 0
+        wrong = 0
+        for index, image in enumerate(testImages):
+            prediction = clf.predict(image)
+            if prediction == testLabels[index]:
+                correct += 1
+            else:
+                wrong += 1
+
+        print("Correct: " + str(correct))
+        print("Wrong: " + str(wrong))
 
 def test_nc_classify(testData, testLabels, centroids):
     correct = 0
@@ -57,9 +83,3 @@ def test_nc_classify(testData, testLabels, centroids):
 
     print("Correct: " + str(correct))
     print("Wrong: " + str(wrong))
-
-
-def nc_classify(trainData, testData, testLabels, trainLabels):
-    dataInClasses = devideIntoClasses(trainData, trainLabels)
-    centroids = calculateCentroids(dataInClasses)
-    test_nc_classify(testData, testLabels, centroids)

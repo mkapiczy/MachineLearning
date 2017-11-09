@@ -1,31 +1,19 @@
 from loader import MNIST
-from nc_classify import nc_classify
-from sklearn.neighbors.nearest_centroid import NearestCentroid
-import numpy as np
+from nc_classify import nc_classify, test_nc_classify_with_sklearn
+from nearest_neighbour_classify import test_neigh_classify_with_sklearn
 
 mndata = MNIST('./samples/MNIST/')
+
 trainingImages, trainingLabels = mndata.load_training()
 testImages, testLabels = mndata.load_testing()
 
+# pca = PCA(n_components=3)
+# trainingImages = pca.fit_transform(trainingImages)
+# testImages = pca.fit_transform(testImages)
 
-def test_nc_classify_with_sklearn(trainingImages, trainingLabels, testImages, testLabels):
-    X = np.array(trainingImages)
-    y = np.array(trainingLabels)
-    clf = NearestCentroid()
-    clf.fit(X, y)
-
-    correct = 0
-    wrong = 0
-    for index, image in enumerate(testImages):
-        prediction = clf.predict(image)
-        if prediction == testLabels[index]:
-            correct += 1
-        else:
-            wrong += 1
-
-    print("Correct: " + str(correct))
-    print("Wrong: " + str(wrong))
-
-
+print("Nearest centroid - my implementation")
 nc_classify(trainingImages, testImages, testLabels, trainingLabels)
+print("Nearest centroid - sklearn")
 test_nc_classify_with_sklearn(trainingImages, trainingLabels, testImages, testLabels)
+print("Nearest neighbours - sklearn")
+test_neigh_classify_with_sklearn(trainingImages, trainingLabels, testImages, testLabels)
