@@ -1,6 +1,6 @@
 import random
 
-from ORLData import ORLData
+from orl.ORLData import ORLData
 
 
 def preprocessData(data, labels):

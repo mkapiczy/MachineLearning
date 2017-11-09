@@ -1,8 +1,8 @@
+from algorithms.nc_classify import nc_classify, test_nc_classify_with_sklearn
+from algorithms.nearest_neighbour_classify import test_neigh_classify_with_sklearn
 from loader import MNIST
-from nc_classify import nc_classify, test_nc_classify_with_sklearn
-from nearest_neighbour_classify import test_neigh_classify_with_sklearn
 
-mndata = MNIST('./samples/MNIST/')
+mndata = MNIST('../samples/MNIST/')
 
 trainingImages, trainingLabels = mndata.load_training()
 testImages, testLabels = mndata.load_testing()

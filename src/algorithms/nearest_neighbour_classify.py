@@ -1,6 +1,5 @@
 import sys
 import warnings
-
 import numpy as np
 from sklearn.neighbors import KNeighborsClassifier
 

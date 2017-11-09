@@ -1,11 +1,7 @@
 import warnings
-
 import numpy as np
 from sklearn.neighbors import NearestCentroid
 
-from loader import MNIST
-
-mndata = MNIST('./samples/MNIST/')
 
 def uniq(lst):
     last = object()
