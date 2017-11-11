@@ -1,7 +1,9 @@
 import warnings
+
 import numpy as np
-from algorithms.MyNearestCentroid import MyNearestCentroid
 from sklearn.neighbors import NearestCentroid
+
+from algorithms.MyNearestCentroid import MyNearestCentroid
 
 
 def test_nc_classify_with_sklearn(trainingImages, trainingLabels, testImages, testLabels):
