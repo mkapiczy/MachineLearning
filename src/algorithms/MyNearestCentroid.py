@@ -25,16 +25,8 @@ class MyNearestCentroid:
             self.value = []
             self.label = label
 
-    def uniq(self, lst):
-        last = object()
-        for item in lst:
-            if item == last:
-                continue
-            yield item
-            last = item
-
     def sort_and_deduplicate(self, l):
-        return list(self.uniq(sorted(l, reverse=True)))
+        return list(np.unique(sorted(l, reverse=True)))
 
     def __devideIntoClasses(self, data, labels):
         uniqueLabels = self.sort_and_deduplicate(labels)
