@@ -61,3 +61,9 @@ class MyNearestCentroid:
     def predict(self, sample):
         sampleMeanValue = np.mean(np.matrix(sample), axis=0, dtype=np.float64)
         return self.closest(sampleMeanValue)
+
+    def predictAll(self, data):
+        predictions = []
+        for sample in data:
+            predictions.append(self.predict(sample))
+        return predictions
