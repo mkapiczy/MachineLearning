@@ -1,15 +1,19 @@
 import sys
 import warnings
+
 import numpy as np
 from sklearn.neighbors import KNeighborsClassifier
 
+from visual.confusion_matrix import createConfusionMatrix
 
-def test_neigh_classify_with_sklearn(trainingImages, trainingLabels, testImages, testLabels):
+
+def test_neigh_classify_with_sklearn(trainingImages, trainingLabels, testImages, testLabels, K):
     with warnings.catch_warnings():
         warnings.simplefilter("ignore")
         X = np.array(trainingImages)
         y = np.array(trainingLabels)
-        neigh = KNeighborsClassifier(n_neighbors=2)
+
+        neigh = KNeighborsClassifier(n_neighbors=K)
         neigh.fit(X, y)
 
         correct = 0
@@ -25,3 +29,6 @@ def test_neigh_classify_with_sklearn(trainingImages, trainingLabels, testImages,
 
         print("Correct: " + str(correct))
         print("Wrong: " + str(wrong))
+
+        predictions = neigh.predict(testImages)
+        createConfusionMatrix(predictions, testLabels)
