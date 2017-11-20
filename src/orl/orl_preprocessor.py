@@ -1,6 +1,7 @@
 import random
 
 from orl.ORLData import ORLData
+from utils import chunks
 
 
 def preprocessData(data, labels):
@@ -9,28 +10,22 @@ def preprocessData(data, labels):
     for i, d in enumerate(data):
         labelledData.append(ORLData(d, labels[i][0] - 1))
 
-    def chunks(l, n):
-        chunks = []
-        for i in range(0, len(l), n):
-            chunks.append(l[i:i + n])
-        return chunks
-
-    chunkedLabeledData = chunks(labelledData, 10)
+    dataInClasses = chunks(labelledData, 10)
     trainingDataLabeled = []
     testDataLabeled = []
 
-    for d in chunkedLabeledData:
+    for dataClass in dataInClasses:
         x = 0
         train = 0
         tst = 0
 
         while x < 10:
-            rand = random.choice(d);
+            randomSample = random.choice(dataClass)
             if train < 7:
-                trainingDataLabeled.append(rand)
+                trainingDataLabeled.append(randomSample)
                 train += 1
             else:
-                testDataLabeled.append(rand)
+                testDataLabeled.append(randomSample)
                 tst += 1
             x += 1
 
