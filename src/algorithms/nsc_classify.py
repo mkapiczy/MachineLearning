@@ -1,30 +1,12 @@
-import warnings
-
-import numpy as np
-from sklearn.neighbors import NearestCentroid
-
+from algorithms.CrossValidator import cross_val_score
 from algorithms.MyNearestSubclassCentroid import MyNearestSubclassCentroid
 
+import numpy as np
 
-def test_nc_classify_with_sklearn(trainingImages, trainingLabels, testImages, testLabels):
-    with warnings.catch_warnings():
-        warnings.simplefilter("ignore")
-        X = np.array(trainingImages)
-        y = np.array(trainingLabels)
-        clf = NearestCentroid()
-        clf.fit(X, y)
-
-        correct = 0
-        wrong = 0
-        for index, image in enumerate(testImages):
-            prediction = clf.predict(image)
-            if prediction == testLabels[index]:
-                correct += 1
-            else:
-                wrong += 1
-
-        print("Correct: " + str(correct))
-        print("Wrong: " + str(wrong))
+def validateHyperParameter(trainingData, trainingLabels, numberOfSubclasses):
+    clf = MyNearestSubclassCentroid(numberOfSubclasses)
+    scores = cross_val_score(clf, trainingData, np.array(trainingLabels), cv=5)
+    print(str(scores))
 
 
 def test_nsc_classify(trainingData, trainingLabels, testData, testLabels, numberOfSubclasses):
