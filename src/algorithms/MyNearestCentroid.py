@@ -1,24 +1,16 @@
 import numpy as np
+from sklearn.base import BaseEstimator
 
-from loader import MNIST
+from algorithms.DataClass import DataClass
 
 
-
-class MyNearestCentroid:
+class MyNearestCentroid(BaseEstimator):
     def __init__(self):
         self.dataInClasses = []
         self.centroid = []
         self.trainingData = None
         self.trainingLabeles = None
 
-    class Class:
-        def __init__(self, label):
-            self.data = []
-            self.label = label
-
-
-        def addData(self, data):
-            self.data.append(data)
 
     class Centroid:
         def __init__(self, label):
@@ -30,7 +22,7 @@ class MyNearestCentroid:
 
     def __devideIntoClasses(self, data, labels):
         uniqueLabels = self.sort_and_deduplicate(labels)
-        classes = [self.Class(l) for l in uniqueLabels]
+        classes = [DataClass(l) for l in uniqueLabels]
         for index, l in enumerate(labels):
             classes[l].label = l
             classes[l].addData(data[index])
@@ -58,9 +50,12 @@ class MyNearestCentroid:
         self.dataInClasses = self.__devideIntoClasses(self.trainingData, self.trainingLabels)
         self.centroids = self.calculateCentroids()
 
-    def predict(self, sample):
-        sampleMeanValue = np.mean(np.matrix(sample), axis=0, dtype=np.float64)
-        return self.closest(sampleMeanValue)
+    def predict(self, data):
+        predictions = []
+        for sample in data:
+            sampleMeanValue = np.mean(np.matrix(sample), axis=0, dtype=np.float64)
+            predictions.append(self.closest(sampleMeanValue))
+        return predictions
 
     def predictAll(self, data):
         predictions = []

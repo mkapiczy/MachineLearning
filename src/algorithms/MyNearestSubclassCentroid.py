@@ -1,9 +1,11 @@
 import numpy as np
 
+from algorithms.DataClass import DataClass
 from algorithms.MyNearestCentroid import MyNearestCentroid
 
 
 class MyNearestSubclassCentroid(MyNearestCentroid):
+
     def __init__(self, numberOfSubclasses):
         self.dataInClasses = []
         self.dataInSubclasses = []
@@ -18,7 +20,7 @@ class MyNearestSubclassCentroid(MyNearestCentroid):
 
     def __devideIntoClasses(self, data, labels):
         uniqueLabels = self.sort_and_deduplicate(labels)
-        classes = [self.Class(l) for l in uniqueLabels]
+        classes = [DataClass(l) for l in uniqueLabels]
         for index, l in enumerate(labels):
             classes[l].label = l
             classes[l].addData(data[index])
@@ -28,13 +30,13 @@ class MyNearestSubclassCentroid(MyNearestCentroid):
             np.random.shuffle(singleClass.data)
             splittedData = np.array_split(np.array(singleClass.data), self.numberOfSubclasses)
             for subClassData in splittedData:
-                cl = self.Class(singleClass.label)
+                cl = DataClass(singleClass.label)
                 for data in subClassData:
                     cl.addData(data)
                 newClasses.append(cl)
-        dataIntoClasses = np.array(newClasses)
 
-        return dataIntoClasses
+        return np.array(newClasses)
+
 
     def fit(self, trainingData, trainingLabels):
         self.trainingData = trainingData
@@ -45,3 +47,10 @@ class MyNearestSubclassCentroid(MyNearestCentroid):
     def predict(self, sample):
         sampleMeanValue = np.mean(np.matrix(sample), axis=0, dtype=np.float64)
         return self.closest(sampleMeanValue)
+
+    def predictAll(self, data):
+        predictions = []
+        for sample in data:
+            predictions.append(self.predict(sample))
+        return predictions
+
