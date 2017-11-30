@@ -4,6 +4,7 @@ import numpy as np
 from sklearn.neighbors import NearestCentroid
 
 from algorithms.MyNearestCentroid import MyNearestCentroid
+from visual.confusion_matrix import createConfusionMatrix
 
 
 def test_nc_classify_with_sklearn(trainingImages, trainingLabels, testImages, testLabels):
@@ -13,7 +14,6 @@ def test_nc_classify_with_sklearn(trainingImages, trainingLabels, testImages, te
         y = np.array(trainingLabels)
         clf = NearestCentroid()
         clf.fit(X, y)
-
         correct = 0
         wrong = 0
         for index, image in enumerate(testImages):
@@ -30,11 +30,10 @@ def test_nc_classify_with_sklearn(trainingImages, trainingLabels, testImages, te
 def test_nc_classify(trainingData, trainingLabels, testData, testLabels):
     clf = MyNearestCentroid()
     clf.fit(trainingData, trainingLabels)
-
     correct = 0
     wrong = 0
     for index, data in enumerate(testData):
-        closestCentroidIndex = clf.predict(data)
+        closestCentroidIndex = clf.predictSingle(data)
         if closestCentroidIndex == testLabels[index]:
             correct += 1
         else:
@@ -42,3 +41,6 @@ def test_nc_classify(trainingData, trainingLabels, testData, testLabels):
 
     print("Correct: " + str(correct))
     print("Wrong: " + str(wrong))
+
+    predictions = clf.predict(testData)
+    createConfusionMatrix(predictions, testLabels)

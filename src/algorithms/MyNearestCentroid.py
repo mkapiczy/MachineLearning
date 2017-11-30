@@ -7,10 +7,9 @@ from algorithms.DataClass import DataClass
 class MyNearestCentroid(BaseEstimator):
     def __init__(self):
         self.dataInClasses = []
-        self.centroid = []
+        self.centroids = []
         self.trainingData = None
-        self.trainingLabeles = None
-
+        self.trainingLabels = None
 
     class Centroid:
         def __init__(self, label):
@@ -45,20 +44,19 @@ class MyNearestCentroid(BaseEstimator):
         return np.linalg.norm(a - b, ord=2)
 
     def fit(self, trainingData, trainingLabels):
+        print("Fitting start")
         self.trainingData = trainingData
         self.trainingLabels = trainingLabels
         self.dataInClasses = self.__devideIntoClasses(self.trainingData, self.trainingLabels)
         self.centroids = self.calculateCentroids()
+        print("Fitting finish")
+
+    def predictSingle(self, sample):
+        sampleMeanValue = np.mean(np.matrix(sample), axis=0, dtype=np.float64)
+        return self.closest(sampleMeanValue)
 
     def predict(self, data):
         predictions = []
         for sample in data:
-            sampleMeanValue = np.mean(np.matrix(sample), axis=0, dtype=np.float64)
-            predictions.append(self.closest(sampleMeanValue))
-        return predictions
-
-    def predictAll(self, data):
-        predictions = []
-        for sample in data:
-            predictions.append(self.predict(sample))
+            predictions.append(self.predictSingle(sample))
         return predictions
