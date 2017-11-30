@@ -1,20 +1,17 @@
-from sklearn.decomposition import PCA
-from sklearn.neighbors import NearestCentroid
-
-from algorithms.MyNearestCentroid import MyNearestCentroid
-from loader import MNIST
-
-from time import time
-
-import numpy as np
-
-from matplotlib import pyplot as plt
-
-from sklearn import manifold, datasets
-from matplotlib import pyplot
 import warnings
 
-mndata = MNIST('../samples/MNIST/')
+import matplotlib.patches as mpatches
+import numpy as np
+from matplotlib import pyplot
+from matplotlib import pyplot as plt
+from sklearn.decomposition import PCA
+from sklearn.neighbors import KNeighborsClassifier
+
+from algorithms.MyNearestCentroid import MyNearestCentroid
+from algorithms.MyNearestSubclassCentroid import MyNearestSubclassCentroid
+from loader import MNIST
+
+mndata = MNIST('../../samples/MNIST/')
 
 trainingImages, trainingLabels = mndata.load_training()
 testImages, testLabels = mndata.load_testing()
@@ -69,23 +66,36 @@ with warnings.catch_warnings():
 
     X = np.array(pca_2d)
     y = np.array(trainingLabels)
-    clf = MyNearestCentroid()
+    clf = KNeighborsClassifier(n_neighbors=5)
     clf.fit(X, y)
 
     pca = PCA(n_components=2).fit(testImages)
     pca_2d_test = pca.transform(testImages)
-    for i,x in enumerate(pca_2d):
-        label = trainingLabels[i]
+    for x in pca_2d_test:
+        label = clf.predict(x)
 
         color, marker = getColorMarkerFromLabel(label)
 
         pyplot.scatter(x[0], x[1], c=color, marker=marker)
 
-    for centroid in clf.centroids:
-        centroidValue = np.array(centroid.value)
+    # for centroid in clf.centroids:
+    #     centroidValue = np.array(centroid.value)
+    #
+    #     centroidLabel = centroid.label
+    #     pyplot.scatter(centroidValue[0][0], centroidValue[0][1], 60, c='#e50000', marker='x')
+    #     pyplot.annotate(str(centroidLabel), centroidValue[0], centroidValue[0])
 
-        centroidLabel = centroid.label
-        pyplot.scatter(centroidValue[0][0], centroidValue[0][1], 60, c='#e50000', marker='x')
-        pyplot.annotate(str(centroidLabel), centroidValue[0], centroidValue[0])
-
+    zero_patch = mpatches.Patch(color='#15b01a', label='0')
+    one_patch = mpatches.Patch(color='#0343df', label='1')
+    two_patch = mpatches.Patch(color='#ff81c0', label='2')
+    three_patch = mpatches.Patch(color='#653700', label='3')
+    four_patch = mpatches.Patch(color='#cea2fd', label='4')
+    five_patch = mpatches.Patch(color='#f97306', label='5')
+    six_patch = mpatches.Patch(color='#ffff14', label='6')
+    seven_patch = mpatches.Patch(color='#95d0fc', label='7')
+    eight_patch = mpatches.Patch(color='#1fa774', label='8')
+    nine_patch = mpatches.Patch(color='#ad8150', label='9')
+    pyplot.legend(
+        handles=[zero_patch, one_patch, two_patch, three_patch, four_patch, five_patch, six_patch, seven_patch,
+                 eight_patch, nine_patch])
     pyplot.show()
