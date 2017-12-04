@@ -1,10 +1,13 @@
 from datetime import datetime
 
+from algorithms.PerceptronBP.perceptron_bp_test import test_perceptron_bp
 from algorithms.PerceptronBackPropagation import test_perceptron_backpropagation
+from algorithms.PerceptronMSE.PerceptronMSEClassifier import PerceptronMSEClassifier
+from algorithms.PerceptronMSE.perceptron_mse_test import test_perceptron_mse, validateHyperParameter
 from algorithms.nc_classify import test_nc_classify, test_nc_classify_with_sklearn
 from algorithms.nearest_neighbour_classify import test_neigh_classify_with_sklearn, \
     validateNearestNeighbourHyperParameter
-from algorithms.nsc_classify import test_nsc_classify, validateHyperParameter
+from algorithms.nsc_classify import test_nsc_classify
 from loader import MNIST
 
 mndata = MNIST('../samples/MNIST/')
@@ -75,9 +78,14 @@ testImages, testLabels = mndata.load_testing()
 # timeElapsed = datetime.now() - startTime
 # print('Execution time(hh:mm:ss.ms) {}'.format(timeElapsed))
 
-print("Backpropagation")
-startTime = datetime.now()
-# validateNearestNeighbourHyperParameter(trainingImages, trainingLabels, 3)
-test_perceptron_backpropagation(trainingImages, trainingLabels, testImages, testLabels)
-timeElapsed = datetime.now() - startTime
-print('Execution time(hh:mm:ss.ms) {}'.format(timeElapsed))
+# print("Backpropagation")
+# startTime = datetime.now()
+# # validateNearestNeighbourHyperParameter(trainingImages, trainingLabels, 3)
+# test_perceptron_backpropagation(trainingImages, trainingLabels, testImages, testLabels, 0.1)
+# timeElapsed = datetime.now() - startTime
+# print('Execution time(hh:mm:ss.ms) {}'.format(timeElapsed))
+
+# ------- MSE Perceptron --------
+# validateHyperParameter(trainingImages, trainingLabels)
+test_perceptron_bp(trainingImages, trainingLabels, testImages, testLabels)
+# test_perceptron_mse(trainingImages, trainingLabels, testImages, testLabels)

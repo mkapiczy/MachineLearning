@@ -2,8 +2,9 @@ from datetime import datetime
 
 from scipy.io import loadmat
 
+from algorithms.PerceptronMSE.perceptron_mse_test import test_perceptron_mse, validateHyperParameter
 from algorithms.nc_classify import test_nc_classify, test_nc_classify_with_sklearn
-from algorithms.nsc_classify import validateHyperParameter, test_nsc_classify
+from algorithms.nsc_classify import test_nsc_classify
 from orl.orl_preprocessor import preprocessData
 
 data = loadmat('../samples/ORL/orl_data.mat')['data']
@@ -29,33 +30,33 @@ labels = trainingLabels + testLabels
 # print('Execution time(hh:mm:ss.ms) {}'.format(timeElapsed))
 
 
-print("Nearest subclass centroid - my implementation - 1")
-validateHyperParameter(data, labels, 1)
-startTime = datetime.now()
-# test_nsc_classify(trainingData, trainingLabels, testData, testLabels, 1)
-timeElapsed = datetime.now() - startTime
-print('Execution time(hh:mm:ss.ms) {}'.format(timeElapsed))
-
-print("Nearest subclass centroid - my implementation - 2")
-validateHyperParameter(data, labels, 2)
-startTime = datetime.now()
-# test_nsc_classify(trainingData, trainingLabels, testData, testLabels, 2)
-timeElapsed = datetime.now() - startTime
-print('Execution time(hh:mm:ss.ms) {}'.format(timeElapsed))
+# print("Nearest subclass centroid - my implementation - 1")
+# validateHyperParameter(data, labels, 1)
+# startTime = datetime.now()
+# # test_nsc_classify(trainingData, trainingLabels, testData, testLabels, 1)
+# timeElapsed = datetime.now() - startTime
+# print('Execution time(hh:mm:ss.ms) {}'.format(timeElapsed))
 #
-print("Nearest subclass centroid - my implementation - 3")
-validateHyperParameter(data, labels, 3)
-startTime = datetime.now()
-# test_nsc_classify(trainingData, trainingLabels, testData, testLabels, 3)
-timeElapsed = datetime.now() - startTime
-print('Execution time(hh:mm:ss.ms) {}'.format(timeElapsed))
+# print("Nearest subclass centroid - my implementation - 2")
+# validateHyperParameter(data, labels, 2)
+# startTime = datetime.now()
+# # test_nsc_classify(trainingData, trainingLabels, testData, testLabels, 2)
+# timeElapsed = datetime.now() - startTime
+# print('Execution time(hh:mm:ss.ms) {}'.format(timeElapsed))
 # #
-print("Nearest subclass centroid - my implementation - 5")
-validateHyperParameter(data, labels, 5)
-startTime = datetime.now()
-# test_nsc_classify(trainingData, trainingLabels, testData, testLabels, 5)
-timeElapsed = datetime.now() - startTime
-print('Execution time(hh:mm:ss.ms) {}'.format(timeElapsed))
+# print("Nearest subclass centroid - my implementation - 3")
+# validateHyperParameter(data, labels, 3)
+# startTime = datetime.now()
+# # test_nsc_classify(trainingData, trainingLabels, testData, testLabels, 3)
+# timeElapsed = datetime.now() - startTime
+# print('Execution time(hh:mm:ss.ms) {}'.format(timeElapsed))
+# # #
+# print("Nearest subclass centroid - my implementation - 5")
+# validateHyperParameter(data, labels, 5)
+# startTime = datetime.now()
+# # test_nsc_classify(trainingData, trainingLabels, testData, testLabels, 5)
+# timeElapsed = datetime.now() - startTime
+# print('Execution time(hh:mm:ss.ms) {}'.format(timeElapsed))
 
 
 # print("Nearest neighbours - sklearn")
@@ -63,3 +64,5 @@ print('Execution time(hh:mm:ss.ms) {}'.format(timeElapsed))
 # test_neigh_classify_with_sklearn(trainingImages, trainingLabels, testImages, testLabels, 2)
 # timeElapsed = datetime.now() - startTime
 # print('Execution time(hh:mm:ss.ms) {}'.format(timeElapsed))
+validateHyperParameter(data, labels)
+test_perceptron_mse(trainingData, trainingLabels, testData, testLabels)
