@@ -27,28 +27,13 @@ class PerceptronMSEClassifier:
         self.trainingData = np.array(trainingData)
         self.trainingLabels = np.array(trainingLabels)
 
-        if len(trainingData) > 10000:
-            trainingDataInChunks = chunks(trainingData, 10000)
-            labelsInChunks = chunks(trainingLabels, 10000)
-            weights = []
-            for i, data in enumerate(trainingDataInChunks):
-                data = np.array(data)
-                labels = np.array(labelsInChunks[i])
-                pseudoInverse = np.linalg.pinv(data)
-                labelsTranspose = labels.transpose()
-                newLabels = []
-                for label in labelsTranspose:
-                    newLabels.append(self.to_zero_form(label, 10))
-                weights.append(np.dot(pseudoInverse, newLabels))
-            self.weights = np.mean(weights, axis=0, dtype=np.float64)
-            print(str(self.weights))
-        else:
-            pseudoInverse = np.linalg.pinv(self.trainingData)
-            labelsTranspose = self.trainingLabels.transpose()
-            newLabels = []
-            for label in labelsTranspose:
-                newLabels.append(self.to_zero_form(label, 10))
-            self.weights = np.dot(pseudoInverse, newLabels)
+        pseudoInverse = np.linalg.pinv(self.trainingData)
+        labelsTranspose = self.trainingLabels.transpose()
+        newLabels = []
+        for label in labelsTranspose:
+            newLabels.append(self.to_zero_form(label, 10))
+
+        self.weights = np.dot(pseudoInverse, newLabels)
 
 
 
@@ -58,7 +43,7 @@ class PerceptronMSEClassifier:
             if i == number:
                 array.append(1)
             else:
-                array.append(0)
+                array.append(-1)
         return array
 
     def find_nearest(self, array, value):
@@ -66,7 +51,8 @@ class PerceptronMSEClassifier:
         return idx
 
     def predictSingle(self, sample):
-        sampleTimesWeight = np.dot(sample, self.weights)
+        # weight transpose times sample
+        sampleTimesWeight = np.dot(self.weights.transpose(), sample)
         return self.find_nearest(sampleTimesWeight, 1)
 
     def predict(self, data):

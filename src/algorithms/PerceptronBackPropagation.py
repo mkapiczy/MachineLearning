@@ -20,8 +20,7 @@ def test_perceptron_backpropagation(trainingImages, trainingLabels, testImages, 
         X = np.array(trainingImages)
         y = np.array(trainingLabels)
 
-        clf = MLPClassifier(solver='lbfgs', alpha=alpha,
-                            hidden_layer_sizes=(), random_state=1)
+        clf = MLPClassifier(solver='sgd', alpha=alpha, hidden_layer_sizes=(), random_state=1)
         clf.fit(X, y)
 
         correct = 0

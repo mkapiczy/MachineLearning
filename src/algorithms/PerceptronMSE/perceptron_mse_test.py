@@ -15,8 +15,8 @@ def test_perceptron_mse(trainingData, trainingLabels, testData, testLabels):
     correct = 0
     wrong = 0
     for index, data in enumerate(testData):
-        closestCentroidIndex = clf.predictSingle(data)
-        if closestCentroidIndex == testLabels[index]:
+        prediction = clf.predictSingle(data)
+        if prediction == testLabels[index]:
             correct += 1
         else:
             wrong += 1

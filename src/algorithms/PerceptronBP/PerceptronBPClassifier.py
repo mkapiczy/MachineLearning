@@ -1,3 +1,4 @@
+import math
 import numpy as np
 import scipy
 
@@ -30,33 +31,25 @@ class PerceptronBPClassifier:
     def fit(self, trainingData, trainingLabels):
         self.trainingData = np.array(trainingData)
         self.trainingLabels = np.array(trainingLabels)
-        labels = None
-
-        if len(trainingData) > 10000:
-            trainingDataInChunks = chunks(trainingData, 10000)
-            labelsInChunks = chunks(trainingLabels, 10000)
-            weights = []
-            for i, data in enumerate(trainingDataInChunks):
-                data = np.array(data)
-                labels = np.array(labelsInChunks[i])
-                pseudoInverse = np.linalg.pinv(data)
-                labelsTranspose = labels.transpose()
-                labels = []
-                for label in labelsTranspose:
-                    labels.append(self.to_zero_form(label, 10))
-                weights.append(np.dot(pseudoInverse, labels))
-            self.weights = np.mean(weights, axis=0, dtype=np.float64)
-        else:
-            labels = self.transformLabels(self.trainingLabels)
-            pseudoInverse = np.linalg.pinv(self.trainingData)
-            self.weights = np.dot(pseudoInverse, labels)
 
 
+        labels = self.transformLabels(self.trainingLabels)
+        pseudoInverse = np.linalg.pinv(self.trainingData)
+        self.weights = np.dot(pseudoInverse, labels)
+
+        # print(str(len(labels))) 60000
+        # print(str(len(self.trainingData))) 60000
         for epoch in range(self.nEpoch):
             for i, data in enumerate(self.trainingData):
-                prediction = np.dot(data, self.weights)
-                print(str((prediction)))
-                error = labels[i] - prediction
+                prediction = np.dot(self.weights.transpose(), data)
+                # print(str(labels[i]))
+                error = []
+                for pred in prediction:
+                    print(str(pred))
+                    error.append(labels[i]-pred)
+                # print(str(error))
+                error = np.mean(error, axis=0, dtype=np.float64)
+                # print(str(error))
 
                 self.weights = self.weights + self.learningRate * error
         return self.weights
