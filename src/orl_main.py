@@ -64,5 +64,13 @@ labels = trainingLabels + testLabels
 # test_neigh_classify_with_sklearn(trainingImages, trainingLabels, testImages, testLabels, 2)
 # timeElapsed = datetime.now() - startTime
 # print('Execution time(hh:mm:ss.ms) {}'.format(timeElapsed))
-validateHyperParameter(data, labels)
+# validateHyperParameter(data, labels)
+
+
+# ------- MSE Perceptron --------
+validateHyperParameter(trainingData, trainingLabels)
 test_perceptron_mse(trainingData, trainingLabels, testData, testLabels)
+
+# ------- BP Perceptron --------
+# validateHyperParameter(trainingImages, trainingLabels)
+# test_perceptron_bp(trainingImages, trainingLabels, testImages, testLabels)

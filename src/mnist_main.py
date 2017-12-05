@@ -5,8 +5,7 @@ from algorithms.PerceptronBackPropagation import test_perceptron_backpropagation
 from algorithms.PerceptronMSE.PerceptronMSEClassifier import PerceptronMSEClassifier
 from algorithms.PerceptronMSE.perceptron_mse_test import test_perceptron_mse, validateHyperParameter
 from algorithms.nc_classify import test_nc_classify, test_nc_classify_with_sklearn
-from algorithms.nearest_neighbour_classify import test_neigh_classify_with_sklearn, \
-    validateNearestNeighbourHyperParameter
+from algorithms.nearest_neighbour_classify import test_neigh_classify_with_sklearn, validateNearestNeighbourHyperParameter
 from algorithms.nsc_classify import test_nsc_classify
 from loader import MNIST
 
@@ -59,22 +58,29 @@ testImages, testLabels = mndata.load_testing()
 
 # print("Nearest neighbours - sklearn k-1")
 # startTime = datetime.now()
-# # validateNearestNeighbourHyperParameter(trainingImages, trainingLabels, 1)
-# test_neigh_classify_with_sklearn(trainingImages, trainingLabels, testImages, testLabels, 1)
+# validateNearestNeighbourHyperParameter(trainingImages, trainingLabels, 1)
+# # test_neigh_classify_with_sklearn(trainingImages, trainingLabels, testImages, testLabels, 1)
 # timeElapsed = datetime.now() - startTime
 # print('Execution time(hh:mm:ss.ms) {}'.format(timeElapsed))
 
 # print("Nearest neighbours - sklearn k-2")
 # startTime = datetime.now()
 # validateNearestNeighbourHyperParameter(trainingImages, trainingLabels, 2)
-# test_neigh_classify_with_sklearn(trainingImages, trainingLabels, testImages, testLabels, 2)
+# # test_neigh_classify_with_sklearn(trainingImages, trainingLabels, testImages, testLabels, 2)
 # timeElapsed = datetime.now() - startTime
 # print('Execution time(hh:mm:ss.ms) {}'.format(timeElapsed))
 
 # print("Nearest neighbours - sklearn k-3")
 # startTime = datetime.now()
 # validateNearestNeighbourHyperParameter(trainingImages, trainingLabels, 3)
-# # test_neigh_classify_with_sklearn(trainingImages, trainingLabels, testImages, testLabels, 2)
+# # test_neigh_classify_with_sklearn(trainingImages, trainingLabels, testImages, testLabels, 3)
+# timeElapsed = datetime.now() - startTime
+# print('Execution time(hh:mm:ss.ms) {}'.format(timeElapsed))
+
+# print("Nearest neighbours - sklearn k-5")
+# startTime = datetime.now()
+# validateNearestNeighbourHyperParameter(trainingImages, trainingLabels, 5)
+# # test_neigh_classify_with_sklearn(trainingImages, trainingLabels, testImages, testLabels, 5)
 # timeElapsed = datetime.now() - startTime
 # print('Execution time(hh:mm:ss.ms) {}'.format(timeElapsed))
 
@@ -86,6 +92,9 @@ testImages, testLabels = mndata.load_testing()
 # print('Execution time(hh:mm:ss.ms) {}'.format(timeElapsed))
 
 # ------- MSE Perceptron --------
+validateHyperParameter(trainingImages, trainingLabels)
+test_perceptron_mse(trainingImages, trainingLabels, testImages, testLabels)
+
+# ------- BP Perceptron --------
 # validateHyperParameter(trainingImages, trainingLabels)
-test_perceptron_bp(trainingImages, trainingLabels, testImages, testLabels)
-# test_perceptron_mse(trainingImages, trainingLabels, testImages, testLabels)
+# test_perceptron_bp(trainingImages, trainingLabels, testImages, testLabels)
