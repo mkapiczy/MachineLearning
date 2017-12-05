@@ -3,6 +3,13 @@ from sklearn.model_selection import train_test_split
 import numpy as np
 from random import randint
 
+
+def validateHyperParameter(trainingData, trainingLabels, clf):
+    trainingData = np.array(trainingData)
+    trainingLabels = np.array(trainingLabels)
+    scores = cross_val_score(clf, trainingData, trainingLabels, cv=5)
+    print(str(scores))
+
 def cross_val_score(validator, data, target, cv):
     scores = []
     for i in range(cv):

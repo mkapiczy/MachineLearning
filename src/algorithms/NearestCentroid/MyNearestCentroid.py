@@ -44,12 +44,10 @@ class MyNearestCentroid(BaseEstimator):
         return np.linalg.norm(a - b, ord=2)
 
     def fit(self, trainingData, trainingLabels):
-        print("Fitting start")
         self.trainingData = trainingData
         self.trainingLabels = trainingLabels
         self.dataInClasses = self.__devideIntoClasses(self.trainingData, self.trainingLabels)
         self.centroids = self.calculateCentroids()
-        print("Fitting finish")
 
     def predictSingle(self, sample):
         sampleMeanValue = np.mean(np.matrix(sample), axis=0, dtype=np.float64)

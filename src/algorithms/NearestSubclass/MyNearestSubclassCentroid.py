@@ -5,8 +5,7 @@ from sklearn.cluster import KMeans
 from sklearn.decomposition import PCA
 
 from algorithms.DataClass import DataClass
-from algorithms.MyNearestCentroid import MyNearestCentroid
-from loader import MNIST
+from algorithms.NearestCentroid.MyNearestCentroid import MyNearestCentroid
 
 
 class MyNearestSubclassCentroid(MyNearestCentroid):
@@ -20,7 +19,6 @@ class MyNearestSubclassCentroid(MyNearestCentroid):
     def __partition(self, lst, n):
         division = len(lst) / n
         return np.asarray([lst[round(division * i):round(division * (i + 1))] for i in range(n)])
-
 
     def fartest(self, cluster):
         aux = []
@@ -43,8 +41,6 @@ class MyNearestSubclassCentroid(MyNearestCentroid):
                 subclass.addData(fartestPoint)
         return subclasses
 
-
-
     def __devideIntoClasses(self, data, labels):
         with warnings.catch_warnings():
             warnings.simplefilter("ignore")
@@ -66,6 +62,7 @@ class MyNearestSubclassCentroid(MyNearestCentroid):
                 subclasses = [DataClass(singleClass.label) for x in range(self.numberOfSubclasses)]
 
                 for i, data in enumerate(pca_2d):
+                    data = np.reshape(data, (-1, 2))
                     prediction = kmeans.predict(data)[0]
                     subclasses[prediction].addData(singleClass.data[i])
 
@@ -75,8 +72,6 @@ class MyNearestSubclassCentroid(MyNearestCentroid):
                     newClasses.append(subclass)
 
             return np.array(newClasses)
-
-
 
     def fit(self, trainingData, trainingLabels):
         self.trainingData = trainingData

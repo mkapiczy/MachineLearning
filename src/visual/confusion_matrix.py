@@ -5,13 +5,22 @@ import numpy as np
 from sklearn.metrics import confusion_matrix
 
 
-def createConfusionMatrix(predictions, truValues):
-    confusionMatrix = confusion_matrix(np.array(truValues), predictions)
-    # Plot normalized confusion matrix
+def createConfusionMatrix(predictions, trueValues):
+    confusionMatrix = confusion_matrix(np.array(trueValues), predictions)
     plt.figure()
-    plot_confusion_matrix(confusionMatrix, np.unique(truValues), normalize=True)
-
+    plot_confusion_matrix(confusionMatrix, np.unique(trueValues), normalize=True)
     plt.show()
+
+def printCorrectWrong(predictions, trueValues):
+    correct = 0
+    wrong = 0
+    for index, prediction in enumerate(predictions):
+        if prediction == trueValues[index]:
+            correct += 1
+        else:
+            wrong += 1
+    print("Correct: " + str(correct))
+    print("Wrong: " + str(wrong))
 
 def plot_confusion_matrix(cm, classes,
                           normalize=False,
