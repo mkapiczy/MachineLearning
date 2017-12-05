@@ -3,12 +3,9 @@ import warnings
 import matplotlib.patches as mpatches
 import numpy as np
 from matplotlib import pyplot
-from matplotlib import pyplot as plt
 from sklearn.decomposition import PCA
 from sklearn.neighbors import KNeighborsClassifier
 
-from algorithms.MyNearestCentroid import MyNearestCentroid
-from algorithms.MyNearestSubclassCentroid import MyNearestSubclassCentroid
 from loader import MNIST
 
 mndata = MNIST('../../samples/MNIST/')

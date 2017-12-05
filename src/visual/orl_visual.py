@@ -1,15 +1,11 @@
-`import warnings
+import warnings
 
-import matplotlib.patches as mpatches
 import numpy as np
 from matplotlib import pyplot, lines
-from matplotlib import pyplot as plt
 from scipy.io import loadmat
 from sklearn.decomposition import PCA
 
-from algorithms.MyNearestCentroid import MyNearestCentroid
-from algorithms.MyNearestSubclassCentroid import MyNearestSubclassCentroid
-from loader import MNIST
+from algorithms.NearestSubclass.MyNearestSubclassCentroid import MyNearestSubclassCentroid
 from orl.orl_preprocessor import preprocessData
 
 indexcolors = [
