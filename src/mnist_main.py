@@ -24,16 +24,16 @@ labels = trainingLabels + testLabels
 
 
 
-# ------- PCA ---------
-pca = PCA(n_components=2).fit(np.array(trainingData))
-trainingData = pca.transform(np.array(trainingData))
-
-pca = PCA(n_components=2).fit(np.array(testData))
-testData = pca.transform(np.array(testData))
-
-pca = PCA(n_components=2).fit(np.array(data))
-data = pca.transform(np.array(data))
-# ------- PCA ---------
+# # ------- PCA ---------
+# pca = PCA(n_components=2).fit(np.array(trainingData))
+# trainingData = pca.transform(np.array(trainingData))
+#
+# pca = PCA(n_components=2).fit(np.array(testData))
+# testData = pca.transform(np.array(testData))
+#
+# pca = PCA(n_components=2).fit(np.array(data))
+# data = pca.transform(np.array(data))
+# # ------- PCA ---------
 
 
 
@@ -118,13 +118,13 @@ data = pca.transform(np.array(data))
 
 # # ------- Perceptron BP --------
 # validateHyperParameter(trainingData, trainingLabels)
-# test_perceptron_bp(trainingData, trainingLabels, testData, testLabels)
+test_perceptron_bp(trainingData, trainingLabels, testData, testLabels)
 
 
-# ------- MSE Perceptron --------
-print("Perceptron MSE")
-validateHyperParameter(data, labels, PerceptronMSEClassifier())
-startTime = datetime.now()
-test_perceptron_mse(trainingData, trainingLabels, testData, testLabels)
-timeElapsed = datetime.now() - startTime
-print('Execution time(hh:mm:ss.ms) {}'.format(timeElapsed))
+# # ------- MSE Perceptron --------
+# print("Perceptron MSE")
+# validateHyperParameter(data, labels, PerceptronMSEClassifier())
+# startTime = datetime.now()
+# test_perceptron_mse(trainingData, trainingLabels, testData, testLabels)
+# timeElapsed = datetime.now() - startTime
+# print('Execution time(hh:mm:ss.ms) {}'.format(timeElapsed))
