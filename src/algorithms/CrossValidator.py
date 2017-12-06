@@ -1,7 +1,6 @@
-from sklearn.metrics import accuracy_score
-from sklearn.model_selection import train_test_split
 import numpy as np
-from random import randint
+from sklearn.metrics import accuracy_score
+from sklearn.model_selection import KFold
 
 
 def validateHyperParameter(trainingData, trainingLabels, clf):
@@ -12,9 +11,10 @@ def validateHyperParameter(trainingData, trainingLabels, clf):
 
 def cross_val_score(validator, data, target, cv):
     scores = []
-    for i in range(cv):
-        randomInt = randint(0, 99)
-        X_train, X_test, y_train, y_test = train_test_split(data, target, test_size=0.2, random_state=randomInt, stratify=target)
+    kf = KFold(n_splits=cv)
+    for train_index, test_index in kf.split(data):
+        X_train, X_test = data[train_index], data[test_index]
+        y_train, y_test = target[train_index], target[test_index]
         validator.fit(X_train, y_train)
         predictions = validator.predict(X_test)
         scores.append(accuracy_score(predictions, y_test, normalize=True))
