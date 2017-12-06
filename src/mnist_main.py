@@ -15,6 +15,8 @@ from algorithms.PerceptronMSE.perceptron_mse_test import test_perceptron_mse
 from loader import MNIST
 import numpy as np
 
+from algorithms.PerceptronBP.PerceptronBPClassifier import PerceptronBPClassifier
+
 mndata = MNIST('../samples/MNIST/')
 
 trainingData, trainingLabels = mndata.load_training()
@@ -116,9 +118,13 @@ labels = trainingLabels + testLabels
 # print('Execution time(hh:mm:ss.ms) {}'.format(timeElapsed))
 
 
-# # ------- Perceptron BP --------
-# validateHyperParameter(trainingData, trainingLabels)
+# ------- Perceptron Backpropagation --------
+print("Perceptron Backpropagation")
+validateHyperParameter(data, labels, PerceptronBPClassifier())
+startTime = datetime.now()
 test_perceptron_bp(trainingData, trainingLabels, testData, testLabels)
+timeElapsed = datetime.now() - startTime
+print('Execution time(hh:mm:ss.ms) {}'.format(timeElapsed))
 
 
 # # ------- MSE Perceptron --------
