@@ -1,50 +1,52 @@
 import numpy as np
-
-from utils import transformLabels
 from random import seed
 import random
-
 
 class PerceptronBPClassifier:
     def __init__(self):
         self.weights = None
-        self.nEpoch = 5
-        self.learningRate = 0.005
+        self.nEpoch = 500
+        self.learningRate = 0.1
 
     def fit(self, trainingData, trainingLabels):
         self.trainingData = np.array(trainingData)
         self.trainingLabels = np.array(trainingLabels)
         seed(1)
-        labels = transformLabels(self.trainingLabels)
-        self.weights = [[0 for i in range(len(trainingData[0]) + 1)] for i in
+        self.weights = [[random.uniform(-0.01, 0.01) for i in range(len(trainingData[0]) + 1)] for i in
                         range(len(np.unique(self.trainingLabels)))]
         # add bias
         self.trainingData = np.insert(self.trainingData, len(self.trainingData[0]), 1, axis=1)
 
         for epoch in range(self.nEpoch):
-            for i, data in enumerate(self.trainingData):
-                prediction = []
-                for w in self.weights:
-                    p = np.dot(np.array(w).transpose(), data)
-                    prediction.append(p)
-                predictedLabel = np.argmax(prediction)
-                # print("Predicted : " + str(predictedLabel) + " - " + str(self.trainingLabels[i]))
-                # print(str(prediction))
-                if predictedLabel != self.trainingLabels[i]:
-                    error = np.array(labels[i]) - np.array(prediction)
-                    # print(str(error))
-                    self.weights[self.trainingLabels[i]] = self.weights[self.trainingLabels[i]] + self.learningRate * data * -1
+            for i, w in enumerate(self.weights):
+                misplacedSamples = []
+                misplacedLabels = []
+
+                for j, data in enumerate(self.trainingData):
+                    output = np.dot(w, data)
+
+                    desiredClass = self.trainingLabels[j]
+                    if output > 0 and i != desiredClass:
+                        misplacedSamples.append(data)
+                        misplacedLabels.append(-1)
+                    if output < 0 and i == desiredClass:
+                        misplacedSamples.append(data)
+                        misplacedLabels.append(1)
+
+
+                delta = [0 for i in range(len(data))]
+
+                for k, d in enumerate(misplacedSamples):
+                    delta = delta + misplacedLabels[k] * misplacedSamples[k]
+
+                self.weights[i] = w + np.dot(self.learningRate, delta)
 
         return self.weights
 
-    def find_nearest(self, array, value):
-        idx = (np.abs(array - value)).argmin()
-        return idx
-
     def predictSingle(self, sample):
         sample = np.insert(sample, len(sample), 1)
-        sampleTimesWeight = np.dot(self.weights, sample)
-        return self.find_nearest(sampleTimesWeight, 1)
+        sampleTimesWeight = np.dot(np.array(self.weights), sample)
+        return np.argmax(sampleTimesWeight)
 
     def predict(self, data):
         predictions = []
