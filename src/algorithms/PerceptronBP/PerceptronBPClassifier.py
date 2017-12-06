@@ -3,10 +3,12 @@ from random import seed
 import random
 
 class PerceptronBPClassifier:
-    def __init__(self):
+    def __init__(self, nEpoch, learningRate):
         self.weights = None
-        self.nEpoch = 500
-        self.learningRate = 0.1
+        self.trainingData = None
+        self.trainingLabels = None
+        self.nEpoch = nEpoch
+        self.learningRate = learningRate
 
     def fit(self, trainingData, trainingLabels):
         self.trainingData = np.array(trainingData)
